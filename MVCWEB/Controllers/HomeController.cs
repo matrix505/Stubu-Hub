@@ -7,32 +7,24 @@ namespace MVCWEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly AppDbContext _dbContext;
+        private readonly IItemRepository _itemRepository;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, IItemRepository itemRepository)
         {
             _logger = logger;
-            _dbContext = context;
+            _itemRepository = itemRepository;
         }
 
         public IActionResult Index()
         {
-
-            //try database if establishing connection
-           if(_dbContext.Database.CanConnect())
-            {
-                _logger.LogInformation("Can connect bitch!");
-            }
-           else
-            {
-                _logger.LogInformation("nah bitch!");
-            }
-
-                return View();
+            var Items = _itemRepository.GetAllItems();
+            
+            return View(Items);
         }
 
         public IActionResult Privacy()
         {
+
             return View();
         }
 

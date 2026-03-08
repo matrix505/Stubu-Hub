@@ -1,4 +1,6 @@
+
 using Microsoft.EntityFrameworkCore;
+using MVCWEB.Hubs;
 using MVCWEB.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +12,13 @@ builder.Services.AddControllersWithViews();
  *  |   DATABASE CONFIGURATION  |
  *  |                           |
  */ 
-var connectionString =
-    builder.Configuration.GetConnectionString("CloudSqlDb");
+var connectionString = builder.Configuration.GetConnectionString("CloudSqlDb");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+
+builder.Services.AddSignalR();
+
 
 var app = builder.Build();
 
@@ -36,4 +42,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapHub<ChatHub>("/chatHub");
 app.Run();

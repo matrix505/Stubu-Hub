@@ -1,20 +1,32 @@
-﻿@{
+﻿@model IEnumerable<ItemDto>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="card skeleton" style="width: 18rem;">
-    <img src="..." class="skeleton card-img-top" alt="">
-    <div class="card-body skeleton">
-        <h5 class="card-title skeleton"></h5>
-        <p class="card-text skeleton"></p>
-        <a href="#" class="btn  skeleton"></a>
-    </div>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.ItemName</td>
+                    <td>@item.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-<div class="card skeleton" style="width: 18rem;">
-    <img src="..." class="skeleton card-img-top" alt="">
-    <div class="card-body skeleton">
-        <h5 class="card-title skeleton"></h5>
-        <p class="card-text skeleton"></p>
-        <a href="#" class="btn  skeleton"></a>
-    </div>
-</div>
+
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+   
+}
