@@ -1,0 +1,42 @@
+[33mcommit 4e096bbcad854fa9a30e3ca9723757d4e03a42f1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdb_config[m[33m, [m[1;31morigin/db_config[m[33m)[m
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sun Mar 8 14:30:18 2026 +0800
+
+    exclude development json appsettings into repo
+
+[33mcommit b918cefd918046ab1464ce900a19140ad3f31c4a[m
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sun Mar 8 12:05:07 2026 +0800
+
+    test slight changes
+
+[33mcommit d2dc6ac772488a4e5e172d55a6da16ba7c9cd1fa[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sun Mar 8 12:00:06 2026 +0800
+
+    test card added
+
+[33mcommit 625dd350723553a5e60f81b7da5dbf078bcb8615[m
+Merge: d664937 100d904
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sat Mar 7 23:47:34 2026 +0800
+
+    new commit
+
+[33mcommit d664937d25aaf192a95a2baf767763e2fcfd4f95[m
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sat Mar 7 23:27:35 2026 +0800
+
+    Add project files.
+
+[33mcommit a4e8f794a45479e42209593898ddc40aa6cccfd2[m
+Author: = <matthewsuarez40@gmail.com>
+Date:   Sat Mar 7 23:27:33 2026 +0800
+
+    Add .gitattributes and .gitignore.
+
+[33mcommit 100d9042ef2553b371a0f78a54cfad80b939f79e[m
+Author: Matthew Suarez <149050250+matrix505@users.noreply.github.com>
+Date:   Sat Mar 7 23:20:23 2026 +0800
+
+    Initial commit
