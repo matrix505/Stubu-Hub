@@ -4,29 +4,65 @@
 }
 
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Label</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.ItemName</td>
-                    <td>@item.Type</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <form id="form-subject">
+    <div class="inner-form">
+        <div class="form-group">
+            <input class="form-control" id="item-id" placeholder="Id" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="item-name" placeholder="ItemName" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="item-type" placeholder="Type" />
+        </div>
+        <button type="submit" id="submit-item" class="btn btn-dark">Submit</button>
+    </div>
+    </form>
+    <div class="item-container">
+        <ul id="item-list">
+
+        </ul>
+    </div>
 </div>
 
 @section Scripts {
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
+    
+    <script type="module">
+        import { itemConnection } from "./js/SignalRConnection.js"
+
+         itemConnection.start()
+        .then(() => console.log("SignalR connected!"))
+        .catch(err => console.error(err));
+
+             itemConnection.on("ReceiveItem", (item) => {
+                   const ul = document.getElementById("item-list");
+
+        // Create a new <li> element
+        const li = document.createElement("li");
+
+        // Set its content
+        li.innerHTML = `${item.id ?? "shit"},${item.itemName}, ${item.type}`;
+
+        // Append to the <ul>
+        ul.appendChild(li);
+        });
+        let form = document.getElementById("form-subject");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+            const DataObj = {
+                Id : parseInt(document.getElementById("item-id").value),
+                ItemName : document.getElementById("item-name").value, 
+                Type : document.getElementById("item-type").value
+            }
+
+            itemConnection.invoke("UpdateItem",DataObj)
+                .then(() => console.log("mew item added"))
+                .catch(err => console.error(err))
+
+                form.reset();
+        });
+    </script>
    
 }

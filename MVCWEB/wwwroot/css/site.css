@@ -18,11 +18,13 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
-.skeleton {
-  background-color: #e0e0e0;
+/*.skeleton {
+  background-color: var(--bg-color);
   border-radius: 4px;
   min-height: 20px;
   margin: 10px 0;
@@ -45,4 +47,4 @@ body {
 @keyframes loading {
   0% { left: -150px; }
   100% { left: 100%; }
-}
+}*/
