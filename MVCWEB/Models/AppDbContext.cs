@@ -8,6 +8,6 @@ namespace MVCWEB.Models
         {
             // Nothing's here
         }
-        public virtual DbSet<ItemDto> Items { get; set; }
+       
     }
 }

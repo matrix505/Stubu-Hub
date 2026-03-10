@@ -7,19 +7,19 @@ namespace MVCWEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IItemRepository _itemRepository;
+        
 
-        public HomeController(ILogger<HomeController> logger, IItemRepository itemRepository)
+        public HomeController(
+            ILogger<HomeController> logger
+            )
         {
             _logger = logger;
-            _itemRepository = itemRepository;
         }
 
         public IActionResult Index()
         {
-            var Items = _itemRepository.GetAllItems();
             
-            return View(Items);
+            return View();
         }
 
         public IActionResult Privacy()

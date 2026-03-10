@@ -1,6 +1,5 @@
 
 using Microsoft.EntityFrameworkCore;
-using MVCWEB.Hubs;
 using MVCWEB.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +13,6 @@ builder.Services.AddControllersWithViews();
  */ 
 var connectionString = builder.Configuration.GetConnectionString("CloudSqlDb");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 builder.Services.AddSignalR();
 
