@@ -1,16 +1,11 @@
-﻿@model ItemDto
+﻿
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<form asp-action="Create" method="post">
-    <input class="form-control" asp-for="ItemName" placeholder="Enter item name" />
-    <input class="form-control" asp-for="Type" placeholder="Enter item type" />
-    <button class="btn btn-dark" type="submit">click me hehe</button>
-
-</form>
-
+<h1>Wala pang design gang</h1>
 @section Scripts {
+
     @* <partial name="_ValidationScriptsPartial" /> *@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
 }
