@@ -1,26 +1,10 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-    margin-bottom: 60px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+:root {
+    --primary-action: #3590F3;
+    --structure: #0A2463;
+    --white-text: #FFFBFE;
+    --dark-text: #131112;
+    --neutral: #D0CFCF;
+    --background: #FFFFFF;
 }
 
 /*.skeleton {
@@ -48,3 +32,71 @@ body {
   0% { left: -150px; }
   100% { left: 100%; }
 }*/
+body {
+    background-color:var(--background);
+}
+
+.navbar {
+    background-color: var(--structure);
+    padding:5px 0;
+    margin-bottom:0 !important;
+}
+.navbar .nav-item {
+    padding :10px 10px;
+}
+.navbar .nav-btn .btn {
+   
+    background-color:var(--primary-action) ;
+    border-radius:5px;
+}
+    .navbar .nav-btn .action-btn {
+        padding: 4px 10px;
+        margin: 0 7px;
+    }
+.navbar .nav-btn {
+    padding: 0px 5px;
+    display:flex;
+    justify-self:end;
+    align-items:center;
+}
+.navbar a {
+    text-decoration:none;
+    color: var(--white-text) ;
+}
+
+
+.hero .banner {
+    background-color: rgba(0,0,0,0.5);
+    background-image: url("../Assets/Images/banner-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width:100%;
+    height: 420px;
+    /*overflow:hidden;*/
+    position:relative;
+}
+.hero .banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* black mask with 50% opacity */
+}
+
+.hero {
+    position:relative;
+}
+    .hero .banner-context {
+        max-width:600px;
+        text-wrap:wrap;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--white-text);
+    }
+
+

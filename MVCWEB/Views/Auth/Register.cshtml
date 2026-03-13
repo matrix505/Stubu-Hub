@@ -1,11 +1,29 @@
-﻿@*
+﻿@model RegisterViewModel
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewData["Title"] = "Sign up";
 }
 
-<h1>Register Page</h1>
+<div class="container">
+    <h1>Register Page</h1>
+    <form asp-action="Register" method="POST">
+        <div class="form-group">
+            <label asp-for="FirstName">First name</label>
+            <input class="form-control" asp-for="FirstName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">First name</label>
+            <input class="form-control" asp-for="LastName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">First name</label>
+            <input class="form-control" asp-for="LastName" />
+        </div>
+    </form>
+</div>
+
 
 @section Scripts {
 
