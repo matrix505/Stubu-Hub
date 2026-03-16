@@ -1,12 +1,16 @@
 @using MVCWEB.ViewModel.Collab
 @model CollabViewModel
-@*
 
-*@
 @{
+    Layout = "_MainLayout";
+    ViewData["Title"] = "Browse Projects";
 }
 
-@await Html.PartialAsync("Partials/_ProjectListPartial",Model)
+<div class="browse-projects p-3">
+    @await Html.PartialAsync("Partials/Project/_ProjectListPartial", Model)
+</div>
+
+
 @section PageStyles {
     <link rel="stylesheet" src="~/css/Modals/ProjectDetails.css"/>
 }

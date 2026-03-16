@@ -12,6 +12,8 @@ namespace MVCWEB.DAL.Abstract
         Task<List<TeamMembers>> GetProjectTeamMembers(int projectId);
         Task CreateProject(int userId,Project project);
         Task DisposeProject(int ownerId,int projectId);
+        Task<List<Categories>> GetAllAvailableCategories();
+        Task<List<Skills>> GetAllAvailableSkills();
 
     }
 }

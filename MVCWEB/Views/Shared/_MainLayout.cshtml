@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/main.css" type="text/css" />
+
     <link rel="stylesheet" href="~/css/sidenavbar.css" type="text/css" />
+   
     <link href='https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
@@ -15,17 +18,21 @@
 </head>
 <body>
 
-   <partial name="Partials/_MainSidebarPartial"/>
-    <div>
-        @RenderBody()
-    </div>
-
+   <div class="wrapper d-flex flex-row">
+        <nav>
+            <partial name="Partials/_MainSidebarPartial" />
+        </nav>
+        <div id="main">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
+   </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

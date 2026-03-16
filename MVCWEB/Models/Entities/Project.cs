@@ -14,7 +14,10 @@
         public int? TotalMembers {  get; set; }
         public string? CategoryNames { get; set; } = string.Empty;
         public string? MemberNames { get; set; } = string.Empty;
-        
+
+        public IEnumerable<ProjectCategories>? Categories {  get; set; }
+        public IEnumerable<ProjectSkills>? Skills { get; set; }
+
 
     }
 }

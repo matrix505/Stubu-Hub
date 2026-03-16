@@ -35,6 +35,7 @@
     <Folder Include="Models\NewFolder\" />
     <Folder Include="Templates\" />
     <Folder Include="Views\Project\" />
+    <Folder Include="wwwroot\css\Modals\" />
   </ItemGroup>
 
 </Project>

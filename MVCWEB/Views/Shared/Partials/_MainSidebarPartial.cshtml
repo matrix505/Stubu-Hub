@@ -4,19 +4,7 @@
 @{
 }
 <script type="text/javascript">
-                     document.addEventListener("DOMContentLoaded", function() {
-        const sidebar = document.querySelector(".sidebar");
-        const toggler = document.querySelector(".navbar-toggler");
-        const icon = toggler.querySelector("i");
-
-        toggler.addEventListener("click", () => {
-            sidebar.classList.toggle("collapsed");
-
-
-            icon.classList.toggle("bx bx-menu");
-            icon.classList.toggle("bx bx-menu");
-        });
-    });
+        
 </script>
 
 <div class="sidebar">
@@ -57,7 +45,7 @@
         </li>
 
         <li class="sidenav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="joinedprojects">
                 <i class="bx bx-folder-check"></i>
                 <span class="links_name">Joined Projects</span>
             </a>
@@ -65,14 +53,14 @@
 
 
         <li class="sidenav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="browseprojects" >
                 <i class="bx bx-folder-search"></i>
                 <span class="links_name">Browse Projects</span>
             </a>
         </li>
 
         <li class="sidenav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="create">
                 <i class="bx bx-folder-plus"></i>
                 <span class="links_name">Create Project</span>
             </a>
@@ -87,10 +75,3 @@
 
     </ul>
 </div>
-
-@section Scripts {
-       
-}
-@section PageStyles {
-   
-}
