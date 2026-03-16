@@ -29,7 +29,7 @@
 
 
 .login-right {
-    width:auto;
+    width:100%;
     height:inherit;
 }
 .login-right .slider {
@@ -40,7 +40,7 @@
 
 .slide {
     position: absolute;
-    width: 1300px;
+    width: 100%;
     height: 100%;
     overflow: hidden;
     opacity: 0;
@@ -85,4 +85,3 @@
         opacity: 0;
     }
 }
-*/
