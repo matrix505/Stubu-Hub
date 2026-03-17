@@ -1,58 +1,46 @@
 ﻿@using MVCWEB.ViewModel.Account
-@model LoginViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Login";
 }
-<style type="text/css">
-</style>
-   <div class="login-page">
-    <section class="login-left">
 
+<div class="auth-page">
+
+    <section class="section-left">
         <div class="inner-section">
-          <h2>Log In</h2>
-            <form asp-action="login" asp-controller="auth" method="post">
-                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <label asp-for="Username">Username</label>
-                    <input class="form-control" asp-for="Username" />
-                    <span class="text-danger" asp-validation-for="Username"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Username">Password</label>
-                    <input type="password" class="form-control" asp-for="Password" />
-                    <span class="text-danger" asp-validation-for="Password"></span>
-                    <a class="" asp-action="forgotpassword">Forgot password</a>
-                </div>
-
-                <div class="form-group ">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-            </form>
+            @await Html.PartialAsync("Partials/Auth/_LoginFormPartial",Model)
         </div>
     </section>
-    <section class="login-right">
+
+    <section class="section-right">
         <div class="slider">
             <div class="slide">
-                <img class="slide-img" src="~/Assets/Images/collab-content1.png">
+                <img class="slide-img " src="~/Assets/Images/collab-content1.png" alt="slide 1" />
+                <div class="slide-overlay"></div>
+                <h1 class="slide-text">Connect</h1>
+            </div>
+
+            <div class="slide">
+                <img class="slide-img" src="~/Assets/Images/collab-content2.png" alt="slide 2" />
+                <div class="slide-overlay"></div>
+                <h1 class="slide-text">Collaborate</h1>
+
             </div>
             <div class="slide">
-                <img class="slide-img" src="~/Assets/Images/collab-content2.png">
-            </div>
-            <div class="slide">
-                <img class="slide-img" src="~/Assets/Images/collab-content3.png">
+                <img class="slide-img" src="~/Assets/Images/collab-content3.png" alt="slide 3" />
+                <div class="slide-overlay"></div>
+                <h1 class="slide-text">Create</h1>
+
             </div>
         </div>
     </section>
-   </div>
-@section Scripts  {
-@{
+</div>
+
+@section Scripts {
+    @{
         await Html.RenderPartialAsync("Partials/_ValidationScriptsPartial");
     }
 }
 @section PageStyles {
-    <link rel="stylesheet" href="~/css/Pages/LoginStyle.css" type="text/css"/>
+    <link rel="stylesheet" href="~/css/Pages/LoginStyle.css" type="text/css" />
 }

@@ -1,0 +1,169 @@
+﻿
+
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1f1f2e;
+    color: #fff;
+    display: inline-flex;
+    top:0;
+    left:0;
+    flex-direction: column;
+    transition: width 0.3s ease, left 0.3s ease;
+    position: fixed;
+    overflow: hidden;
+    z-index:100;
+}
+
+    .sidebar.collapsed {
+        width: 70px;
+    }
+
+
+.sidebar-header {
+    padding: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.sidebar .navbar-toggler {
+    position: static;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+
+.sidebar-profile {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidenav-item {
+    margin: 0.2rem 0;
+}
+
+    .sidenav-item .nav-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #fff;
+        padding: 0.8rem 1rem;
+        transition: background 0.2s, color 0.2s;
+        border-radius: 5px;
+    }
+
+        .sidenav-item .nav-link i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            min-width: 24px;
+            text-align: center;
+        }
+
+    .sidenav-item .links_name {
+        white-space: nowrap;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .sidenav-item .nav-link:hover {
+        background-color: #27293d;
+        color: #4fc3f7;
+    }
+
+    .sidenav-item .nav-link.active {
+        background-color: #4fc3f7;
+        color: #1f1f2e;
+    }
+
+.sidebar.collapsed .links_name {
+    display: none;
+}
+
+.sidebar.collapsed .profile-information {
+    display: none;
+}
+
+.sidebar.collapsed .user-information-container {
+    justify-content: center;
+}
+
+
+.sidebar.collapsed .nav-link i {
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+    }
+
+        .sidebar.active {
+            left: 0;
+        }
+}
+
+
+.user-information-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    width: 100%;
+}
+
+.profile-img {
+    flex-shrink: 0;
+}
+
+.profile-img img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.profile-information {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-width: calc(100% - 50px); 
+}
+
+
+#user-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+
+}
+
+#user-email {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+  
+}
+
+#user-name,
+#user-email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+

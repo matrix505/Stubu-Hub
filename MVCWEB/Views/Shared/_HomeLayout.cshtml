@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,19 +10,32 @@
     <link rel="stylesheet" href="~/MVCWEB.styles.css" asp-append-version="true" />
     @RenderSection("PageStyles", required: false)
 
+    <style>
+       
+
+      
+    </style>
 </head>
 <body>
-    <div id="loader" class="loader-overlay">
-        <div class="spinner"></div>
-    </div>
 
-        <div class="wrapper">
-        <header class="content">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm ">
+    @* <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div> *@
+
+    <div class="site-wrapper">
+
+        <header class="site-header">
+            <nav class="navbar navbar-expand-sm">
                 <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVCWEB</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                        MVCWEB
+                    </a>
+                    <button class="navbar-toggler" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target=".navbar-collapse"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -31,34 +44,32 @@
                 </div>
             </nav>
         </header>
-        <div class="content">
-            <main role="main" class="">
-                @RenderBody()
-            </main>
-        </div>
-        
-        </div>
-    <footer class="border-top footer text-muted content bg-light">
-        <div class="container">
-            &copy; 2026 - MVCWEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+        <main role="main" class="site-main">
+            @RenderBody()
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                &copy; 2026 - MVCWEB -
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
-    <script type="text/javascript">
-                        window.addEventListener("load", () => {
-          const loader = document.getElementById("loader");
-          const content = document.getElementById("content");
 
-          // Fade out loader
-          loader.classList.add("hidden");
+    <script>
+        window.addEventListener("load", () => {
 
-          // Fade in content after small delay
-          content.style.opacity = 1;
+
+            document.getElementById("loader").classList.add("hidden");
         });
     </script>
+
 </body>
 </html>

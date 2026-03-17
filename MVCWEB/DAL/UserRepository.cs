@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using MVCWEB.DAL.Abstract;
 using MVCWEB.Data;
-using MVCWEB.Models;
 
 namespace MVCWEB.DAL
 {

@@ -1,24 +1,51 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
+
+    var highlights = new[]
+    {
+        new { Image = "~/Assets/Images/collab-content1.png", Title = "Collaborate", Subtitle = "Find teammates for your projects" },
+        new { Image = "~/Assets/Images/collab-content2.png", Title = "Build Together", Subtitle = "Work on academic or personal projects" },
+        new { Image = "~/Assets/Images/collab-content3.png", Title = "Grow Skills", Subtitle = "Learn and improve with peers" },
+    };
 }
+
 <div class="sub-wrapper">
     <section class="hero">
-        <div class="banner">  
-        </div>
+        <div class="banner"></div>
         <div class="banner-context">
-            <h1>With <span class="">STUBU</span> no man is an island</h1>
-            <p class="sub-title ">Stubu is a student project collaboration hub web-based platform that helps students find teammates for academic or personal projects.</p>
-            <a class="btn btn-primary" asp-action="login" asp-controller="auth">Get started</a>
+            <h1>With <span>STUBU</span> no man is an island</h1>
+            <p class="sub-title">Stubu is a student project collaboration hub web-based platform that helps students find teammates for academic or personal projects.</p>
+            <a class="btn btn-primary btn-lg px-4" asp-action="login" asp-controller="auth">Get started</a>
         </div>
     </section>
+
     <section class="highlights">
-        
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var item in highlights)
+                {
+                    <div class="col highlight-item">
+
+                        <a href="#">
+                            <div class="card shadow-sm highlight-card border-0 shadow-sm h-100">
+                                <div class="card-img-wrapper">
+                                    <img src="~/Assets/Images/collab-content2.png" class="card-img" alt="@item.Title" />
+                                    <div class="card-overlay">
+                                        <h5 class="text-white fw-bold mb-0">@item.Title</h5>
+                                        <small class="text-white-50">@item.Subtitle</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            </div>
+        </div>
     </section>
 </div>
 
 @section Scripts {
-
-    @* <partial name="_ValidationScriptsPartial" /> *@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    
 }

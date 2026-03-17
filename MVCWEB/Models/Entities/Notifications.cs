@@ -1,4 +1,4 @@
-﻿namespace MVCWEB.Models
+﻿namespace MVCWEB.Models.Entities
 {
     public class Notifications
     {

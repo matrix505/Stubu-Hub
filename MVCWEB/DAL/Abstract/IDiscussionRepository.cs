@@ -1,6 +1,6 @@
 ﻿namespace MVCWEB.DAL.Abstract
 {
-    public interface IDiscussionRepository
+    public interface IDiscussionRepository 
     {
     }
 }

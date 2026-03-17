@@ -1,4 +1,4 @@
-﻿using MVCWEB.Models;
+﻿using MVCWEB.Models.Entities;
 
 namespace MVCWEB.DAL.Abstract
 {

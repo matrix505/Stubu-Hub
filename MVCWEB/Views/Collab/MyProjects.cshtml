@@ -1,0 +1,10 @@
+﻿@using MVCWEB.ViewModel.Collab
+@model CollabViewModel
+@{
+    Layout = "_MainLayout";
+    ViewData["Title"] = "My Projects";
+}
+
+<div class="browse-myprojects p-3">
+    @await Html.PartialAsync("Partials/Project/_ProjectListPartial",Model)
+</div>

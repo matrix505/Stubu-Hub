@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Caching.Memory;
+
 using MVCWEB.DAL.Abstract;
 using MVCWEB.Data;
-using MVCWEB.Models;
+using MVCWEB.Models.Entities;
 using MVCWEB.Services.Abstract;
 using MVCWEB.Services.Cache;
 

@@ -20,8 +20,7 @@ namespace MVCWEB.Extensions.Services
             services.AddSingleton<DapperContext>(); // sql dapper micro-orm
             services.AddSignalR(); // for real-time data
             services.AddScoped<IPasswordHasher, PasswordHasher>(); // for auth service hasher
-            services.AddScoped<IUsersRepository, UserRepository>(); // for user client dal
-            services.AddScoped<IAccountRepository, AccountRepository>(); // for authentication dal
+        
             services.AddScoped<IEmailSenderService, EmailSenderService>(); // Mail Sender'
             services.AddScoped<ICacheService, CacheService>();
 

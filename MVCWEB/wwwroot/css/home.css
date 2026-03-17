@@ -7,7 +7,7 @@
     --background: #FFFFFF;
 }
 
-/*.skeleton {
+.skeleton {
   background-color: var(--bg-color);
   border-radius: 4px;
   min-height: 20px;
@@ -31,99 +31,131 @@
 @keyframes loading {
   0% { left: -150px; }
   100% { left: 100%; }
-}*/
-body {
-    background-color:var(--background);
 }
+
+/*Layout*/
 html, body {
     height: 100%;
     margin: 0;
 }
-body {
-    display: flex;
-    flex-direction: column;
+
+.site-wrapper {
     min-height: 100vh;
-}
-.wrapper {
     display: flex;
     flex-direction: column;
-}
-main {
-    flex-grow:1;
 }
 
-footer {
-/*    flex-shrink: 0;*/
-    height: 5px;
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: #fff;
+/*    border-bottom: 1px solid #e5e7eb;*/
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
+
+.site-main {
+    flex: 1;
+}
+
+.site-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+
+/*Navbar*/
 .navbar {
-    width: 100%;
+/*    width: 100%;
     height: 60px;
-    z-index: 1000;
+    z-index: 1000;*/
     background-color: var(--structure);
-    padding: 5px 0;
-    margin-bottom: 0 !important;
+/*    padding: 5px 0;
+    margin-bottom: 0 !important;*/
 }
-.navbar .nav-item {
+/*.navbar .nav-item {
     padding :10px 10px;
-}
+}*/
 .navbar .nav-btn .btn {
    
     background-color:var(--primary-action) ;
     border-radius:5px;
 }
     .navbar .nav-btn .action-btn {
-        padding: 4px 10px;
-        margin: 0 7px;
+        margin-right:7px;
+        padding : 3px 10px;
     }
-.navbar .nav-btn {
-    padding: 0px 5px;
-    display:flex;
-    justify-self:end;
-    align-items:center;
-}
+
 .navbar a {
     text-decoration:none;
     color: var(--white-text) ;
 }
 
+/*HERo BANNER*/
+/*.hero .banner {
+   
+    height: 420px;
+    overflow:hidden;
+    position:relative;
+}*/
+.hero {
 
-.hero .banner {
-    background-color: rgba(0,0,0,0.5);
-    background-image: url("../Assets/Images/banner-bg.png");
-    background-repeat: no-repeat;
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.banner {
+
+    position: absolute;
+    inset: 0;
+/*    background-color: #0d0d0d;*/
+    background-image: url('../Assets/Images/banner-bg2.png');
     background-size: cover;
     background-position: center;
-    width:100%;
-    height: 420px;
-    /*overflow:hidden;*/
-    position:relative;
-}
-.hero .banner::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6); /* black mask with 50% opacity */
+    z-index: 0;
 }
 
-.hero {
-    position:relative;
-}
-    .hero .banner-context {
-        max-width:600px;
-        text-wrap:wrap;
+    .banner::after {
+        content: '';
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--white-text);
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+    }
+
+.banner-context {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    max-width: 700px;
+    padding: 2rem;
+}
+
+    .banner-context h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+
+        .banner-context h1 span {
+            color: #0d6efd;
+        }
+
+    .banner-context .sub-title {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
     }
 
 
-/* Full-screen overlay */
+/* loading screen */
 .loader-overlay {
     position: fixed;
     top: 0;
@@ -160,4 +192,35 @@ footer {
     transition: opacity 0.5s ease;
 }
 
+/* Highlights */
+.highlights {
+    padding: 4rem 0;
+    background-color: #f8f9fa;
+}
+
+/* Card */
+.highlight-card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+    .highlight-card .card-img-wrapper {
+        position: relative;
+    }
+
+    .highlight-card .card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .highlight-card .card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    }
 

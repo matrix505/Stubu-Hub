@@ -3,3 +3,75 @@
 *@
 @{
 }
+<script type="text/javascript">
+        
+</script>
+
+<div class="sidebar">
+
+    <div class="sidebar-header">
+        <button class="navbar-toggler">
+            <i class="bx bx-menu"></i>
+        </button>
+    </div>
+    <div class="sidebar-profile">
+        <div class="user-information-container">
+
+            <div class="profile-img">
+                <img src="~/Assets/Images/collab-content3.png" />
+            </div>
+
+            <div class="profile-information">
+                <span id="user-name" class="user-information">Sebastian, Hermano</span>
+                <span id="user-email" class="user-information">sebastianhedsadsadasdaasrmano@gmail.com</span>
+            </div>
+        </div>
+    </div>
+
+    <ul class="sidebar-nav flex-grow-1">
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bx bx-user-circle"></i>
+                <span class="links_name">Profile</span>
+            </a>
+        </li>
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="myprojects">
+                <i class="bx bx-folder"></i>
+                <span class="links_name">My Projects</span>
+            </a>
+        </li>
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="joinedprojects">
+                <i class="bx bx-folder-check"></i>
+                <span class="links_name">Joined Projects</span>
+            </a>
+        </li>
+
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="browseprojects" >
+                <i class="bx bx-folder-search"></i>
+                <span class="links_name">Browse Projects</span>
+            </a>
+        </li>
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="collab" asp-action="create">
+                <i class="bx bx-folder-plus"></i>
+                <span class="links_name">Create Project</span>
+            </a>
+        </li>
+
+        <li class="sidenav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bx bx-envelope"></i>
+                <span class="links_name">Join Requests</span>
+            </a>
+        </li>
+
+    </ul>
+</div>

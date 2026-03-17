@@ -1,0 +1,283 @@
+﻿@using MVCWEB.ViewModel.Collab
+@model CollabViewModel
+
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<style>
+
+    
+    .browse-container {
+        padding-top: 1.5rem;
+        padding-bottom: 1.7rem;
+    }
+
+    .project-card {
+        cursor: pointer;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, .12) !important;
+            /* background-color: */
+        }
+
+    .cat-badge {
+        font-size: 0.76rem;
+    }
+
+    .card-footer-custom {
+        background: transparent;
+        border-top: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem 1rem;
+    }
+
+    .search-input-group {
+        max-width: 336px;
+    }
+
+    /* .avatar-sm {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .member-row {
+        padding: .5rem;
+        border-radius: .375rem;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .member-email {
+        font-size: 11px;
+    } */
+</style>
+
+<div class="container browse-container">
+
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold mb-0">@ViewData["Title"]</h4>
+            <small class="text-muted">@Model.Projects.TotalCount projects found</small>
+        </div>
+
+    
+        @if (Model.isSearchAllowed)
+        {
+            <form method="get" class="d-flex gap-2">
+                <div class="input-group search-input-group">
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           placeholder="Search projects..."
+                           value="@Model.Search" />
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                        Search
+                    </button>
+
+                    @if (!string.IsNullOrEmpty(Model.Search))
+                    {
+                        <a asp-action="@action" class="btn btn-sm btn-outline-danger">
+                            Clear
+                        </a>
+                    }
+                </div>
+            </form>
+        }
+    </div>
+
+
+    @if (Model.Projects.Items.Any())
+    {
+        <div class="container row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3 mb-4">
+            
+            @foreach (var project in Model.Projects.Items)
+            {
+                var desc = project.Description ?? "";
+                var shortDesc = desc.Length > 60
+                ? string.Concat(desc.AsSpan(0, 60), "...")
+                : desc;
+
+                var categories = project.CategoryNames.Split(",").ToList();
+                var visibleCats = categories.Take(3).ToList();
+                var extraCats = categories.Count - visibleCats.Count;
+
+                var badgeClass = project.Status switch
+                {
+                    "Active" => "bg-success",
+                    "Planning" => "bg-warning text-dark",
+                    "OnHold" => "bg-secondary",
+                    "Completed" => "bg-info",
+                    _ => "bg-light text-dark"
+                };
+
+                <div class="col">
+                    <div class="card border-0 shadow-sm h-100 project-card"
+                         data-id="@project.Project_id">
+
+                        <div class="card-body d-flex flex-column gap-2">
+
+                        
+                            <div class="d-flex align-items-start justify-content-between gap-2">
+                                <h6 class="fw-bold mb-0 text-break">@project.Title</h6>
+                                <span class="badge @badgeClass flex-shrink-0">@project.Status</span>
+                            </div>
+
+                          
+                            <p class="text-muted small mb-0">@shortDesc</p>
+
+                       
+                            <div class="d-flex flex-wrap gap-1">
+                                @foreach (var cat in visibleCats)
+                                {
+                                    if (String.IsNullOrEmpty(cat)) continue;
+
+                                    <span class="badge bg-primary bg-opacity-10 text-primary cat-badge">
+                                        @cat
+                                    </span>
+                                }
+                                @if (extraCats > 0)
+                                {
+                                    <span class="badge bg-light text-muted cat-badge">
+                                        +@extraCats more
+                                    </span>
+                                }
+                            </div>
+
+                        </div>
+
+                       
+                        <div class="card-footer-custom">
+                            <small class="text-muted">
+                                <i class="bi bi-people me-1"></i>
+                                @project.TotalMembers / @project.MemberSize
+                            </small>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3 me-1"></i>
+                                @project.CreatedAt?.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        @if (Model.Projects.TotalPages > 1)
+        {
+            <nav>
+                <ul class="pagination pagination-sm justify-content-center">
+
+                    <li class="page-item @(!Model.Projects.HasPrevious ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="@action"
+                           asp-route-page="@(Model.Projects.Page - 1)"
+                           asp-route-search="@Model.Search">
+                            Previous
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.Projects.TotalPages; i++)
+                    {
+                        @if (i == 1 || i == Model.Projects.TotalPages ||
+                                    (i >= Model.Projects.Page - 1 && i <= Model.Projects.Page + 1))
+                        {
+                            <li class="page-item @(i == Model.Projects.Page ? "active" : "")">
+                                <a class="page-link"
+                                   asp-action="@action"
+                                   asp-route-page="@i"
+                                   asp-route-search="@Model.Search">@i</a>
+                            </li>
+                        }
+                        else if (i == Model.Projects.Page - 2 || i == Model.Projects.Page + 2)
+                        {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        }
+                    }
+
+                    <li class="page-item @(!Model.Projects.HasNext ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="@action"
+                           asp-route-page="@(Model.Projects.Page + 1)"
+                           asp-route-search="@Model.Search">
+                            Next
+                        </a>
+                    </li>
+
+                </ul>
+                <p class="text-center text-muted small">
+                    Page @Model.Projects.Page of @Model.Projects.TotalPages
+                </p>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-folder2-open fs-1 text-muted"></i>
+            <p class="text-muted mt-3 mb-0">No projects found.</p>
+            @if (!string.IsNullOrEmpty(Model.Search))
+            {
+                <a asp-action="@action" class="btn btn-sm btn-outline-secondary mt-2">
+                    Clear search
+                </a>
+            }
+        </div>
+    }
+
+</div>
+
+<div class="modal fade" id="projectModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-1 p-md-4" id="projectModalContent">
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', async () => {
+            const id = card.dataset.id;
+
+            try {
+                console.log(id);
+                const response = await fetch(`/collab/Details/${parseInt(id)}`,
+                {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                if (!response.ok) throw new Error('Failed to load');
+
+                const html = response.text();
+                console.log(html);
+
+                document.getElementById('projectModalContent').innerHTML = await html;
+                new bootstrap.Modal(document.getElementById('projectModal')).show();
+
+            } catch (error) {
+
+               document.getElementById('projectModalContent').innerHTML = error;
+                new bootstrap.Modal(document.getElementById('projectModal')).show();
+            }
+        });
+    });
+</script>

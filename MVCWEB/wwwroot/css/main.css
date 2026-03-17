@@ -1,0 +1,36 @@
+﻿:root {
+
+}
+
+body {
+}
+
+#main {
+    margin-left: 240px;
+    flex: 1;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+
+#main.expanded {
+    margin-left: 60px;
+}
+
+@media (max-width: 768px) {
+
+    /* hide sidebar off screen by default */
+    .sidebar {
+        width: 240px;
+        transform: translateX(-100%);
+    }
+
+        /* slide in when open */
+        .sidebar.mobile-open {
+            transform: translateX(0);
+        }
+
+    /* main takes full width on mobile */
+    #main {
+        margin-left: 0 !important;
+    }
+}

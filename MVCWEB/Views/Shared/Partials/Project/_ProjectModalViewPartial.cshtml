@@ -1,0 +1,154 @@
+﻿@using MVCWEB.ViewModel.Collab
+@model CollabViewModel
+
+<style>
+    .owner-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .member-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .member-email {
+        font-size: 11px;
+    }
+</style>
+
+<div class="modal-header border-0 pb-0">
+    <div>
+        <h5 class="fw-bold mb-1">@Model.Project.Title</h5>
+        @{
+            var badgeClass = Model.Project.Status switch
+            {
+                "Active" => "bg-success",
+                "Planning" => "bg-warning text-dark",
+                "Open" => "bg-secondary",
+                "Completed" => "bg-info",
+                _ => "bg-light text-dark"
+            };
+        }
+        <span class="badge @badgeClass">@Model.Project.Status</span>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body pt-2">
+
+    <div class="mb-4 mt-2">
+        <p class="mb-2">Description</p>
+        <p class="text-muted mb-0 ">@Model.Project.Description</p>
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="d-flex align-items-center gap-4 mb-4">
+        <div>
+            <small class="text-muted d-block">Owner</small>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <div class="rounded-circle bg-primary d-flex align-items-center
+                            justify-content-center text-white fw-bold flex-shrink-0 owner-avatar">
+
+                    @Model.Project.OwnerName?.Substring(0, 1).ToUpper()
+                </div>
+                <span class="fw-semibold small">@Model.Project.OwnerName</span>
+            </div>
+        </div>
+        <div>
+            <small class="text-muted d-block">Members</small>
+            <span class="fw-semibold small">
+
+                @Model.Members.Count / @Model.Project.MemberSize
+            </span>
+        </div>
+        <div>
+            <small class="text-muted d-block">Created</small>
+            <span class="fw-semibold small">
+
+                @Model.Project.CreatedAt?.ToString("MMM dd, yyyy")
+            </span>
+        </div>
+    </div>
+
+    <hr class="my-3" />
+
+    <div class="mb-4">
+        <small class="text-muted fw-semibold d-block mb-2">CATEGORIES</small>
+        <div class="d-flex flex-wrap gap-2">
+
+            @{
+                var categories = Model.Project.CategoryNames.Split(", ").ToList();
+            }
+            @if (categories.Count > 1)
+            {
+
+                @foreach (var cat in categories)
+                {
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+                        @cat
+                    </span>
+                }
+            }
+            else
+            {
+                <span class="text-muted small">No categories.</span>
+            }
+        </div>
+    </div>
+    <hr class="my-3" />
+    <div>
+        <small class="text-muted fw-semibold d-block mb-2">Team Members</small>
+
+        @if (Model.Members.Any())
+        {
+            <div class="d-flex flex-column gap-2">
+                @foreach (var member in Model.Members)
+                {
+                    var isOwner = member.User_id == Model.Project.Owner_id;
+
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0 member-avatar">
+
+                                @member.Email.Substring(0, 1).ToUpper()
+                            </div>
+                            <div>
+                                <div class="fw-semibold small">@member.Fullname</div>
+                                <div class="text-muted member-email">@member.Email</div>
+                            </div>
+                        </div>
+                        <span class="badge text-dark">
+                            @(isOwner ? "Owner" : "Member")
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted small mb-0">No members yet.</p>
+        }
+    </div>
+
+</div>
+
+<div class="modal-footer border-0 pt-0">
+    @* <button type="button" class="btn btn-outline-secondary btn-sm"
+            data-bs-dismiss="modal">
+        Close
+    </button> *@
+
+
+    <a asp-action="ProjectMain" asp-controller="Collab"
+       asp-route-id="@Model.Project.Project_id"
+       class="btn btn-primary btn">
+        <i class="bi bi-arrow-right me-1"></i>
+        Open
+    </a>
+
+
+</div>

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MVCWEB.DAL.Abstract;
 using MVCWEB.Enums;
 using MVCWEB.ViewModel;
 
@@ -10,13 +11,16 @@ namespace MVCWEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProjectRepository _projectRepository;
  
 
         public HomeController(
-            ILogger<HomeController> logger
+            ILogger<HomeController> logger,
+            IProjectRepository projectRepository
             )
         {
             _logger = logger;
+            _projectRepository = projectRepository;
          
         }
        
@@ -26,6 +30,10 @@ namespace MVCWEB.Controllers
             {
                 return RedirectToAction("Index","Dashboard");
             }
+            return View();
+        }
+        public IActionResult Browse()
+        {
             return View();
         }
         public IActionResult About()
@@ -39,3 +47,4 @@ namespace MVCWEB.Controllers
         }
     }
 }
+

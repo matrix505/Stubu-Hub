@@ -9,18 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Entities\**" />
     <Compile Remove="obj\**" />
     <Compile Remove="Repositories\**" />
-    <Content Remove="Models\Entities\**" />
     <Content Remove="obj\**" />
     <Content Remove="Repositories\**" />
-    <EmbeddedResource Remove="Models\Entities\**" />
     <EmbeddedResource Remove="obj\**" />
     <EmbeddedResource Remove="Repositories\**" />
-    <None Remove="Models\Entities\**" />
     <None Remove="obj\**" />
     <None Remove="Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\Pages\StyleSheet.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +32,10 @@
 
   <ItemGroup>
     <Folder Include="Hub\" />
+    <Folder Include="Models\NewFolder\" />
     <Folder Include="Templates\" />
-    <Folder Include="Views\Collab\" />
-    <Folder Include="Views\NewFolder\" />
     <Folder Include="Views\Project\" />
+    <Folder Include="wwwroot\css\Modals\" />
   </ItemGroup>
 
 </Project>
