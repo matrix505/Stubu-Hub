@@ -187,9 +187,60 @@ namespace MVCWEB.DAL
             };  
         }
 
-        public Task<PaginatedResult<Project>> GetOwnedProjects(int userId, int page, int pageSize)
+        public async Task<PaginatedResult<Project>> GetOwnedProjects(int userId, int page, int pageSize, string? search)
         {
-            throw new NotImplementedException();
+            using var conn = _dapperContext.CreateConnection();
+            var OFFSET = (page - 1) * pageSize;
+
+            var query = @"
+                SELECT p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt,
+                STRING_AGG(c.Category_name, ', ') AS CategoryNames,
+                CONCAT(u.FirstName,' ', u.LastName) as OwnerName
+                FROM Project p
+                
+                INNER JOIN TeamMembers tm ON tm.Project_id = p.Project_id
+                LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
+                LEFT JOIN Categories c ON c.Category_id = pc.Category_id
+                LEFT JOIN Users u ON u.User_id = p.Owner_id
+
+                WHERE
+                p.Owner_id = @UserId AND
+                (@Search IS NULL
+                OR p.Title LIKE '%' + @Search + '%'
+                OR p.Description LIKE '%' + @Search + '%')
+                GROUP BY p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, u.FirstName, u.LastName
+                ORDER BY p.CreatedAt DESC
+                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+                SELECT COUNT(DISTINCT p.Project_id) 
+                FROM Project p
+                INNER JOIN TeamMembers tm ON tm.Project_id = p.Project_id
+                
+                WHERE tm.User_id = @UserId AND
+                (@Search IS NULL
+                OR Title LIKE '%' + @Search + '%'
+                OR Description LIKE '%' + @Search + '%');";
+
+            using var multi = await conn.QueryMultipleAsync(query, new
+            {
+                //query paramterss
+                Offset = OFFSET,
+                PageSize = pageSize,
+                Search = search,
+                UserId = userId
+
+            }
+            );
+            var items = (await multi.ReadAsync<Project>()).ToList();
+            var total = await multi.ReadFirstAsync<int>();
+
+            return new PaginatedResult<Project>()
+            {
+                Items = items,
+                TotalCount = total,
+                Page = page,
+                PageSize = pageSize,
+            };
         }
 
         public async Task<Project?> GetByIdAsync(int projectId)

@@ -1,4 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
+
+
     const sidebar = document.querySelector(".sidebar");
     const main = document.getElementById('main');
     const toggler = document.querySelector(".navbar-toggler");
@@ -22,3 +24,4 @@
         localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
     });
 });
+

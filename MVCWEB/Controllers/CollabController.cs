@@ -50,10 +50,29 @@ namespace MVCWEB.Controllers
             int pageSize = 9;
             var projects = new CollabViewModel()
             {
-                Projects = await _project.GetJoinedProjects(userId, page, pageSize, search),
+                Projects = await _project.GetJoinedProjects(userId, page, pageSize, search)
             };
 
             return View(projects);
+        }
+        [HttpGet]
+        public async Task<IActionResult> MyProjects(int page = 1, string? search = null)
+        {
+            int pageSize = 9; // TO DO: make static helper to set fixed values 
+
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var MyProjects = new CollabViewModel()
+            {
+                Projects = await _project.
+                GetOwnedProjects(
+                    userId,
+                    page,
+                    pageSize,
+                    search
+                    ),
+                isSearchAllowed = false
+            };
+            return View(MyProjects);
         }
         [HttpGet]
         public async Task<IActionResult> Details(int id)

@@ -10,5 +10,7 @@ namespace MVCWEB.ViewModel.Collab
         public Project? Project { get; set; }
         public List<TeamMembers> Members { get; set; } = new();
         public string? Search {  get; set; }
+        public bool isSearchAllowed { get; set; } = true;
+        public bool isPaginationAllowed { get; set; } = true;
     }
 }

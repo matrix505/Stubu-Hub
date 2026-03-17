@@ -1,42 +1,44 @@
-﻿
-
-
-.login-page {
+﻿/* parent page */
+.auth-page {
     display: flex;
-/*    flex-direction:row;*/
-    height:90vh;
-    overflow:hidden;
+    height: 90vh;
+    overflow: hidden;
 }
-.login-left {
-    position:relative;
-    max-width:420px;    
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.login-left .inner-section {
-    width:240px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-}
-.login-left .form-group {
-    margin-bottom:20px;
-}
-.login
 
-
-.login-right {
-    width:100%;
-    height:inherit;
-}
-.login-right .slider {
+/* left section*/
+.section-left {
     position: relative;
-    width: 100%;
+    min-width: 300px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 3rem;
     height: 100%;
+    overflow-y: auto;
 }
+
+    .section-left .inner-section {
+        min-width: 300px;
+        max-width: 500px;
+    }
+
+    .section-left .form-group {
+        margin-bottom: 20px;
+    }
+
+/* right section  */
+.section-right {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+    .section-right .slider {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
 
 .slide {
     position: absolute;
@@ -46,23 +48,41 @@
     opacity: 0;
     animation: fadeSlider 12s infinite;
 }
+
 .slide-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position:relative;
+}
+    .slide-overlay::after {
+        content: '';
+        position:absolute;
+        top:0;
+        background-color: rgba(0, 0, 0, 0.4);
+        inset:0;
+        
+    }
+.slide .slide-text {
+    color: white;
+    position:absolute;
+    top:67%;
+    left:17%;
+    font-size:3.5rem;
+    z-index:100;
 }
 
-    .slide:nth-child(1) {
-        animation-delay: 0s;
-    }
+.slide:nth-child(1) {
+    animation-delay: 0s;
+}
 
-    .slide:nth-child(2) {
-        animation-delay: 3s;
-    }
+.slide:nth-child(2) {
+    animation-delay: 4s;
+}
 
-    .slide:nth-child(3) {
-        animation-delay: 6s;
-    }
+.slide:nth-child(3) {
+    animation-delay: 8s;
+}
 
 @keyframes fadeSlider {
     0% {
@@ -84,4 +104,34 @@
     100% {
         opacity: 0;
     }
+}
+
+/*Responsive design*/
+@media (max-width: 768px) {
+    .auth-page {
+        height: auto;
+        min-height: 90vh;
+        overflow: visible;
+    }
+
+    .section-left {
+        width: 100%;
+        min-width: unset;
+        padding: 2rem 1.5rem;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .section-right {
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .section-left {
+        padding: 1.5rem 1rem;
+    }
+
+        .section-left .inner-section {
+            max-width: 100%;
+        }
 }

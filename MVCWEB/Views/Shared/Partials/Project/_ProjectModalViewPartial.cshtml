@@ -1,6 +1,24 @@
 ﻿@using MVCWEB.ViewModel.Collab
 @model CollabViewModel
 
+<style>
+    .owner-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .member-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .member-email {
+        font-size: 11px;
+    }
+</style>
+
 <div class="modal-header border-0 pb-0">
     <div>
         <h5 class="fw-bold mb-1">@Model.Project.Title</h5>
@@ -33,9 +51,7 @@
             <small class="text-muted d-block">Owner</small>
             <div class="d-flex align-items-center gap-2 mt-1">
                 <div class="rounded-circle bg-primary d-flex align-items-center
-                            justify-content-center text-white fw-bold flex-shrink-0"
-
-                     style="width:30px;height:30px;font-size:12px">
+                            justify-content-center text-white fw-bold flex-shrink-0 owner-avatar">
 
                     @Model.Project.OwnerName?.Substring(0, 1).ToUpper()
                 </div>
@@ -45,14 +61,14 @@
         <div>
             <small class="text-muted d-block">Members</small>
             <span class="fw-semibold small">
-              
+
                 @Model.Members.Count / @Model.Project.MemberSize
             </span>
         </div>
         <div>
             <small class="text-muted d-block">Created</small>
             <span class="fw-semibold small">
-               
+
                 @Model.Project.CreatedAt?.ToString("MMM dd, yyyy")
             </span>
         </div>
@@ -67,9 +83,9 @@
             @{
                 var categories = Model.Project.CategoryNames.Split(", ").ToList();
             }
-            @if (categories.Count >1)
+            @if (categories.Count > 1)
             {
-                
+
                 @foreach (var cat in categories)
                 {
                     <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
@@ -96,17 +112,13 @@
 
                     <div class="d-flex align-items-center justify-content-between p-2 rounded bg-light">
                         <div class="d-flex align-items-center gap-2">
-                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0"
-                                 
-                            style="width:32px;height:32px;font-size:12px">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0 member-avatar">
 
                                 @member.Email.Substring(0, 1).ToUpper()
                             </div>
                             <div>
                                 <div class="fw-semibold small">@member.Fullname</div>
-                                <div class="text-muted" 
-                                
-                                style="font-size:11px">@member.Email</div>
+                                <div class="text-muted member-email">@member.Email</div>
                             </div>
                         </div>
                         <span class="badge text-dark">
@@ -129,8 +141,8 @@
             data-bs-dismiss="modal">
         Close
     </button> *@
-    
-    
+
+
     <a asp-action="ProjectMain" asp-controller="Collab"
        asp-route-id="@Model.Project.Project_id"
        class="btn btn-primary btn">
