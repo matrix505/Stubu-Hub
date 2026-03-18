@@ -126,33 +126,22 @@ namespace MVCWEB.DAL
             var OFFSET = (page - 1) * pageSize;
 
             var query = @"
-                SELECT p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt,
-                STRING_AGG(c.Category_name, ', ') AS CategoryNames,
-                CONCAT(u.FirstName,' ', u.LastName) as OwnerName
-                FROM Project p
-                
-                INNER JOIN TeamMembers tm ON tm.Project_id = p.Project_id
-                LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
-                LEFT JOIN Categories c ON c.Category_id = pc.Category_id
-                LEFT JOIN Users u ON u.User_id = p.Owner_id
-
-                WHERE
-                p.Owner_id = @UserId AND
-                (@Search IS NULL
-                OR p.Title LIKE '%' + @Search + '%'
-                OR p.Description LIKE '%' + @Search + '%')
-                GROUP BY p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, u.FirstName, u.LastName
-                ORDER BY p.CreatedAt DESC
-                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
-
-                SELECT COUNT(DISTINCT p.Project_id) 
-                FROM Project p
-                INNER JOIN TeamMembers tm ON tm.Project_id = p.Project_id
-                
-                WHERE tm.User_id = @UserId AND
-                (@Search IS NULL
-                OR Title LIKE '%' + @Search + '%'
-                OR Description LIKE '%' + @Search + '%');";
+            SELECT  p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, p.MemberSize,
+            COUNT(DISTINCT tm.User_id) AS TotalMembers,
+            STRING_AGG(c.Category_name, ', ') AS CategoryNames
+            FROM Project p
+            LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
+            LEFT JOIN Categories c ON c.Category_id = pc.Category_id
+            LEFT JOIN TeamMembers tm ON tm.Project_id = p.Project_id
+            WHERE  p.Owner_id = @UserId
+            AND (@Search IS NULL OR p.Title LIKE '%' + @Search + '%' OR p.Description LIKE '%' + @Search + '%')
+            GROUP BY  p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, p.MemberSize
+            ORDER BY p.CreatedAt DESC
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+            SELECT COUNT(*) 
+            FROM Project p
+            WHERE  p.Owner_id = @UserId
+            AND (@Search IS NULL OR p.Title LIKE '%' + @Search + '%' OR p.Description LIKE '%' + @Search + '%');";
 
             using var multi = await conn.QueryMultipleAsync(query, new
             {
@@ -182,19 +171,18 @@ namespace MVCWEB.DAL
             {
                 using var conn = _dapperContext.CreateConnection();
                 string query = @"
-                SELECT p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, p.Owner_id,
+                SELECT p.Project_id, p.Title, p.Description,  p.Status,  p.CreatedAt, p.Owner_id, p.MemberSize, 
                 STRING_AGG(c.Category_name, ', ') AS CategoryNames,
-                CONCAT(u.FirstName,' ', u.LastName) as OwnerName, 
+                CONCAT(u.FirstName,' ', u.LastName) AS OwnerName, 
                 COUNT(DISTINCT tm.User_id) AS TotalMembers
                 FROM Project p
-
                 LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
                 LEFT JOIN Categories c ON c.Category_id = pc.Category_id
                 LEFT JOIN TeamMembers tm ON tm.Project_id = p.Project_id
                 LEFT JOIN Users u ON u.User_id = p.Owner_id 
                 WHERE p.Project_id = @ProjectId
-                GROUP BY p.Project_id, p.Title, p.Description, p.Status, p.CreatedAt, p.Owner_id,
-                u.FirstName, u.LastName";
+                GROUP BY p.Project_id,  p.Title,  p.Description,   p.Status,  p.CreatedAt,  p.Owner_id,
+                p.MemberSize,  u.FirstName,  u.LastName";
 
                 return await conn.QueryFirstOrDefaultAsync<Project>(query, new { ProjectId = projectId });
             }
