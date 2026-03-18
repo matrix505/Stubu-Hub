@@ -19,9 +19,15 @@
                 <img src="~/Assets/Images/collab-content3.png" />
             </div>
 
-            <div class="profile-information">
+            <div class="profile-information d-flex flex-column justify-content-center align-items-start">
                 <span id="user-name" class="user-information">@User.FindFirstValue(ClaimTypes.Name)</span>
                 <span id="user-email" class="user-information">@User.FindFirstValue(ClaimTypes.Email)</span>
+                <span class="small" >
+                    <form asp-action="Logout" asp-controller="Account" method="post">
+                        @Html.AntiForgeryToken()
+                        <button class="btn logout-btn btn-link text-decoration-none text-danger p-0 border-0" href="#">Logout</button>
+                    </form>
+                </span>
             </div>
         </div>
     </div>
@@ -63,13 +69,5 @@
                 <span class="links_name">Create Project</span>
             </a>
         </li>
-
-        <li class="sidenav-item">
-            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="bx bx-envelope"></i>
-                <span class="links_name">Join Requests</span>
-            </a>
-        </li>
-
     </ul>
 </div>

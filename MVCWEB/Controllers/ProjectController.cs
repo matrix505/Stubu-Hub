@@ -11,19 +11,49 @@ namespace MVCWEB.Controllers
     {
         private readonly IProjectRepository _project;
         private readonly ICollabRepository _collab;
+        private readonly ILogger<ProjectController> _logger;
 
         public ProjectController(
             IProjectRepository projectRepository,
-            ICollabRepository collabRepository
+            ICollabRepository collabRepository,
+            ILogger<ProjectController> logger
             )
         {
             _project = projectRepository;
             _collab = collabRepository;
+            _logger = logger;
         }
         [HttpGet]
-        public IActionResult Main(int id,string tab = "overview")
+        public async Task<IActionResult> Main(int id,string? tab = null)
         {
-            return View();
+            _logger.LogInformation(tab.ToString());
+            var GetMainProject = await _project.GetMainProject(id);
+
+            if(GetMainProject == null)
+            {
+                return NotFound();
+            }
+
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var MainProject = new ProjectMainViewModel()
+            {
+                Id = GetMainProject.Project_id,
+                Title = GetMainProject.Title!,
+                Description = GetMainProject.Description!,
+                Categories = GetMainProject.CategoryNames!.Split(",").ToList(),
+                MemberSize = GetMainProject.MemberSize,
+                Status = GetMainProject.Status!,
+                Members = await _collab.GetProjectTeamMembers(id),
+                IsUserProjectMember = await _project.IsUserProjectMember(UserId,id),
+                IsUserProjectOwner = await _project.IsUserProjectOwner(UserId, id)
+                ,TotalMembers = GetMainProject.TotalMembers,
+                CreatedAt = GetMainProject.CreatedAt,
+                tab = tab
+
+            };
+
+
+            return View(MainProject);
         }
 
         [HttpGet]

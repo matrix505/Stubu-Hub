@@ -69,7 +69,7 @@
     }
 
         .sidenav-item .nav-link i {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-right: 1rem;
             min-width: 24px;
             text-align: center;
@@ -77,8 +77,8 @@
 
     .sidenav-item .links_name {
         white-space: nowrap;
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: 0.9rem;
+/*        font-weight: 500;*/
     }
 
     .sidenav-item .nav-link:hover {

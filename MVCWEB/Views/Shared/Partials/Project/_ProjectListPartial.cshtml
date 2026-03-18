@@ -44,7 +44,7 @@
 </style>
 
 <div class="container-fluid container-md browse-container">
-
+   
 
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
@@ -52,11 +52,11 @@
             <small class="text-muted">@Model.Projects.TotalCount projects found</small>
         </div>
 
-    
+    <div>
         @if (Model.isSearchAllowed)
         {
-            <form method="get" class="d-flex gap-2">
-                <div class="input-group search-input-group">
+            <form method="get" class="d-flex gap-2 mb-2">
+                <div class="input-group search-input-group ">
                     <input type="text" name="search" class="form-control form-control-sm"
                            placeholder="Search projects..."
                            value="@Model.Search" />
@@ -70,11 +70,17 @@
                             Clear
                         </a>
                     }
+
                 </div>
             </form>
         }
-    </div>
+            @* <div class="d-flex justify-content-end">
+                <a class="btn btn-dark"></a>
+            </div> *@
+        </div>
 
+    </div>
+        
 
     @if (Model.Projects.Items.Any())
     {

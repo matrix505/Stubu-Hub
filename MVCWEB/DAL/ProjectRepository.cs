@@ -102,12 +102,12 @@ namespace MVCWEB.DAL
             p.MemberSize,
             COUNT(DISTINCT tm.User_id) AS TotalMembers,
             STRING_AGG(c.Category_name, ', ') AS CategoryNames
-        FROM Project p
-        LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
-        LEFT JOIN Categories c ON c.Category_id = pc.Category_id
-        LEFT JOIN TeamMembers tm ON tm.Project_id = p.Project_id
-        WHERE p.Project_id = @ProjectId
-        GROUP BY 
+            FROM Project p
+            LEFT JOIN ProjectCategories pc ON pc.Project_id = p.Project_id
+            LEFT JOIN Categories c ON c.Category_id = pc.Category_id
+            LEFT JOIN TeamMembers tm ON tm.Project_id = p.Project_id
+            WHERE p.Project_id = @ProjectId
+            GROUP BY 
             p.Project_id, 
             p.Title, 
             p.Description, 
