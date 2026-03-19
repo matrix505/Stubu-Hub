@@ -56,7 +56,7 @@ namespace MVCWEB.DAL
             var result = await conn.QueryAsync<Discussions>(sql, new { ProjectId });
             return result.ToList();
         }
-        public async Task<Discussions?> GetDiscussionById(int TopicId)
+        public async Task<Discussions?> GetDiscussionById(int? TopicId)
         {
             using var conn = _dapperContext.CreateConnection();
             const string sql = @"
@@ -66,6 +66,7 @@ namespace MVCWEB.DAL
                         dt.Title,
                         dt.Description,
                         dt.Creator_id,
+                        dt.IsClosed,
                         dt.CreatedAt,
                         CONCAT(u.FirstName,' ',u.LastName) AS CreatorName,
                         p.Title as ProjectTitle

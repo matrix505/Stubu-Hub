@@ -3,6 +3,7 @@
 
 @{
     Layout = "_MainLayout";
+    ViewData["Title"] = "Discussion - " + Model.ProjectTitle;
 }
 
 <style>
@@ -66,6 +67,8 @@
 
             @if (Model.IsClosed != true)
             {
+                <form asp-action="discussions" asp-route-ProjectId="@Model.Project_id" asp-route-TopicId="@Model.Topic_id"  method="post">
+                    @Html.AntiForgeryToken()
                 <div class="d-flex gap-2 align-items-center">
                     <input type="text"
                            class="form-control rounded-pill bg-light border"
@@ -74,6 +77,8 @@
                         Post
                     </button>
                 </div>
+                <span asp-validation-for="@Model.Reply"></span>
+                </form>
             }
             else
             {
@@ -103,39 +108,33 @@
         }
         else
         {
-            @* @foreach (var msg in Model.Messages)
+            @if (Model.IsClosed != true)
             {
-                <div class="card border rounded-4">
-                    <div class="card-body p-4">
+                <form asp-action="Discussions" asp-route-ProjectId="@Model.Project_id" asp-route-TopicId="@Model.Topic_id" method="post">
+                    @Html.AntiForgeryToken()
 
-                        <div class="d-inline-flex align-items-center gap-2 border rounded-pill px-3 py-1 mb-3 bg-white">
-                            <div class="rounded-circle overflow-hidden flex-shrink-0 comment-author-pill">
-                                <i class="bi bi-person-fill text-secondary d-flex justify-content-center align-items-center h-100"></i>
-                            </div>
-                            <span class="fw-semibold small">@msg.SenderName</span>
-                            <span class="text-muted comment-timestamp">
-                                @msg.SentAt?.ToString("MMM dd · hh:mm tt")
-                            </span>
-                        </div>
+                    <input type="hidden" asp-for="Topic_id" />
+                    <input type="hidden" asp-for="Project_id" />
 
-                        <p class="text-secondary mb-3 comment-body">
-                            @msg.Message
-                        </p>
-
-                        @if (Model.IsClosed != true)
-                        {
-                            <button class="btn btn-link p-0 text-decoration-none text-warning-emphasis small fw-semibold">
-                                <i class="bi bi-reply me-1"></i>Reply
-                            </button>
-                        }
-
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="text"
+                               asp-for="Reply"
+                               class="form-control rounded-pill bg-light border"
+                               placeholder="Write a comment…" />
+                        <button type="submit" class="btn btn-dark rounded-pill px-4 text-nowrap">
+                            Post
+                        </button>
                     </div>
-                </div>
-            } *@
+                    <span asp-validation-for="Reply" class="text-danger small"></span>
+                </form>
+            }
         }
 
     </div>
 </div>
+@section Scripts {
+
+}
 @section PageStyles {
    
 }

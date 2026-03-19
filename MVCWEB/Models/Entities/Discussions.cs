@@ -9,6 +9,7 @@
         public string? Title { get; set; }
         public string? ProjectTitle { get; set; }
         public string? Description { get; set; }
+        public bool? IsClosed { get; set; }
         public DateTime? CreatedAt { get; set; }
 
     }

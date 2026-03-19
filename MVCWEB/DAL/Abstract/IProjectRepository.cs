@@ -18,7 +18,8 @@ namespace MVCWEB.DAL.Abstract
         Task<bool> AcceptJoinRequest(int RequestId);
         Task<bool> RejectJoinRequest(int RequestId);
 
-        Task<List<TopicMessages>> GetDiscussionMessages(int ProjectId, int TopicId);
+        Task<List<TopicMessages>> GetDiscussionMessages(int? ProjectId, int? TopicId);
+        Task PostDiscussionMessage(int? ProjectId, int TopicId,string Message);
 
         Task<bool> LeaveProject(int UserId, int ProjectId);
         

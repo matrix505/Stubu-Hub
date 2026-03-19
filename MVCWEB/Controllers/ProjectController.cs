@@ -116,7 +116,7 @@ namespace MVCWEB.Controllers
 
             await _project.CreateProject(userId, NewProject);
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("MyProjects", "Collab");
         }
 
         [HttpGet]
@@ -181,17 +181,16 @@ namespace MVCWEB.Controllers
         public async Task<IActionResult> Discussions(int ProjectId, int TopicId)
         {
             var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            
+
             if (!await _project.IsUserProjectMember(UserId, ProjectId))
-            {
                 return Forbid();
-            }
+
             var FetchDiscussion = await _discussion.GetDiscussionById(TopicId);
 
-            if(FetchDiscussion == null)
-            {
+            if (FetchDiscussion == null)
                 return NotFound();
-            }
+
+            var replies = await _project.GetDiscussionMessages(ProjectId, TopicId);
 
             var DiscussionDetails = new ProjectDiscussionViewModel()
             {
@@ -201,16 +200,41 @@ namespace MVCWEB.Controllers
                 CreatedBy = FetchDiscussion.CreatorName,
                 Project_id = FetchDiscussion.Project_id,
                 ProjectTitle = FetchDiscussion.ProjectTitle,
-                CreatedAt = FetchDiscussion.CreatedAt
+                CreatedAt = FetchDiscussion.CreatedAt,
+                IsClosed = FetchDiscussion.IsClosed, 
+                Messages = replies
             };
+
             return View(DiscussionDetails);
         }
-        //[HttpPost]
-        //public IActionResult Discussions()
-        //{
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Discussions(ProjectDiscussionViewModel pdv)
+        {
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
            
-        //    return View();
-        //}
+            var FetchDiscussion = await _discussion.GetDiscussionById(pdv.Topic_id);
+            if (FetchDiscussion == null) return NotFound();
+
+            pdv.Title = FetchDiscussion.Title;
+            pdv.Description = FetchDiscussion.Description;
+            pdv.CreatedBy = FetchDiscussion.CreatorName;
+            pdv.ProjectTitle = FetchDiscussion.ProjectTitle;
+            pdv.CreatedAt = FetchDiscussion.CreatedAt;
+            pdv.IsClosed = FetchDiscussion.IsClosed;
+            pdv.Messages = await _project.GetDiscussionMessages(pdv.Project_id, pdv.Topic_id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(pdv);
+            }
+
+            await _project.PostDiscussionMessage(pdv.Topic_id, UserId, pdv.Reply);
+
+            return RedirectToAction("Discussions", new { ProjectId = pdv.Project_id, TopicId = pdv.Topic_id });
+        }
 
         [HttpGet]
         public async Task<IActionResult> CreateDiscussion(int projectId,string projectTitle)
@@ -252,6 +276,7 @@ namespace MVCWEB.Controllers
             return RedirectToAction("Main", new { id = pcd.ProjectId, tab = "discussions"});
         }
 
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]

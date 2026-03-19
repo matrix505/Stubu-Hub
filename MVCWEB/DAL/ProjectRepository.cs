@@ -251,10 +251,10 @@ namespace MVCWEB.DAL
                 AND jr.Status = 'Pending'";
 
             return (await conn.QueryAsync<JoinRequests>(query, new { ProjectId })).ToList();
-        }
+        }   
 
 
-        public async Task<List<TopicMessages>> GetDiscussionMessages(int ProjectId, int TopicId)
+        public async Task<List<TopicMessages>> GetDiscussionMessages(int? ProjectId, int? TopicId)
         {
             using var conn = _dapperContext.CreateConnection();
 
@@ -288,6 +288,24 @@ namespace MVCWEB.DAL
 
             var rowsAffected = await conn.ExecuteAsync(sql, new { UserId, ProjectId });
             return rowsAffected > 0;
+        }
+
+        public async Task PostDiscussionMessage(int? topicId, int senderId, string message)
+        {
+            using var conn = _dapperContext.CreateConnection();
+
+            var query = @"
+        INSERT INTO TopicMessages (Sender_id, Message, File_attachment, Timestamp, Topic_id)
+        VALUES (@Sender_id, @Message, @Topic_id)";
+
+            var parameters = new
+            {
+                Sender_id = senderId,
+                Message = message,
+                Topic_id = topicId
+            };
+
+            await conn.ExecuteAsync(query, parameters);
         }
     }
 }
