@@ -252,5 +252,27 @@ namespace MVCWEB.Controllers
             return RedirectToAction("Main", new { id = pcd.ProjectId, tab = "discussions"});
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LeaveProject(int projectId)
+        {
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            await _project.LeaveProject(UserId, projectId);
+            return RedirectToAction("JoinedProjects", "Collab");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> DisposeProject(int projectId)
+        {
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if(!await _project.IsUserProjectOwner(UserId,projectId))
+            {
+                return Forbid();
+            }
+
+            await _project.DisposeProject(projectId);
+            return RedirectToAction("MyProjects", "Collab");
+        }
     }
 }

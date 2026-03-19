@@ -85,9 +85,13 @@ namespace MVCWEB.DAL
 
         }
 
-        public Task DisposeProject(int OwnerId)
+        public async Task DisposeProject(int projectId)
         {
-            throw new NotImplementedException();
+            using var conn = _dapperContext.CreateConnection();
+            var query = @"DELETE FROM Project 
+                        WHERE Project_id = @ProjectId";
+            await conn.ExecuteAsync(query, new { ProjectId = projectId });
+
         }
 
         public async Task<Project?> GetMainProject(int ProjectId)
@@ -272,6 +276,18 @@ namespace MVCWEB.DAL
 
             var result = await conn.QueryAsync<TopicMessages>(query, new { TopicId, ProjectId });
             return result.ToList();
+        }
+
+        public async Task<bool> LeaveProject(int UserId, int ProjectId)
+        {
+            using var conn = _dapperContext.CreateConnection();
+            const string sql = @"
+            DELETE FROM TeamMembers
+            WHERE User_id = @UserId 
+            AND Project_id = @ProjectId";
+
+            var rowsAffected = await conn.ExecuteAsync(sql, new { UserId, ProjectId });
+            return rowsAffected > 0;
         }
     }
 }

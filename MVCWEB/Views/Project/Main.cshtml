@@ -296,28 +296,35 @@
 
     else if (currentTab == "manage" && (Model.IsUserProjectOwner || Model.IsUserProjectMember))
     {
+
         <div class="card rounded-3 p-3 manage-card">
             @if (Model.IsUserProjectMember && !Model.IsUserProjectOwner)
             {
-          
+
                 <h3 class="fs-6 fw-semibold mb-1">Leave Project</h3>
                 <p class="text-secondary small mb-3">You will lose access to all project content. You can rejoin only if re-invited.</p>
-                <a href="#" class="btn btn-danger-soft rounded-2 d-inline-flex align-items-center gap-2"
-                   onclick="return confirm('Are you sure you want to leave this project?')">
+                
+                <form asp-action="LeaveProject" asp-route-projectId="@Model.Id">
+                    @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger-soft rounded-2 d-inline-flex align-items-center gap-2"
+                   onclick="return confirm('Are you sure you want to leave this project?'))">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                     Leave Project
-                </a>
-      
+                </button>
+                </form>
             }
             @if (Model.IsUserProjectOwner)
             {
                 <h3 class="fs-6 fw-semibold mb-1">Dispose Project</h3>
                 <p class="text-secondary small mb-3">Permanently delete this project and all its data. This action cannot be undone.</p>
-                <a href="#" class="btn btn-danger-soft rounded-2 d-inline-flex align-items-center gap-2"
+                 <form asp-action="DisposeProject" asp-route-projectId="@Model.Id">
+                     @Html.AntiForgeryToken()
+                <button class="btn btn-danger-soft rounded-2 d-inline-flex align-items-center gap-2"
                    onclick="return confirm('This will permanently delete the project. Are you sure?')">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="no    ne" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
                     Dispose Project
-                </a>
+                </button>
+                </form>
                 }
             </div>
             }
