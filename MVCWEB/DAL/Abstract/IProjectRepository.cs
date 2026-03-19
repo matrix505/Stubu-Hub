@@ -17,5 +17,7 @@ namespace MVCWEB.DAL.Abstract
         Task<List<JoinRequests>?> ViewJoinRequests(int ProjectId);
         Task<bool> AcceptJoinRequest(int RequestId);
         Task<bool> RejectJoinRequest(int RequestId);
+
+        Task<List<TopicMessages>> GetDiscussionMessages(int ProjectId, int TopicId);
     }
 }

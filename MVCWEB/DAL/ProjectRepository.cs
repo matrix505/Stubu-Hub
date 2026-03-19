@@ -248,5 +248,30 @@ namespace MVCWEB.DAL
 
             return (await conn.QueryAsync<JoinRequests>(query, new { ProjectId })).ToList();
         }
+
+
+        public async Task<List<TopicMessages>> GetDiscussionMessages(int ProjectId, int TopicId)
+        {
+            using var conn = _dapperContext.CreateConnection();
+
+            string query = @"
+                    SELECT 
+                        m.Message_id, 
+                        m.Sender_id, 
+                        m.Topic_id, 
+                        m.Message, 
+                        m.Timestamp,
+                        m.File_attachment,
+                        CONCAT(u.FirstName,' ',u.LastName) as SenderName
+                    FROM TopicMessages m
+                    INNER JOIN Users u ON u.User_id = m.Sender_id
+                    INNER JOIN DiscussionTopics t ON t.Topic_id = m.Topic_id
+                    WHERE m.Topic_id = @TopicId
+                    AND t.Project_id = @ProjectId
+                    ORDER BY m.Timestamp ASC";
+
+            var result = await conn.QueryAsync<TopicMessages>(query, new { TopicId, ProjectId });
+            return result.ToList();
+        }
     }
 }

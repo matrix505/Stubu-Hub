@@ -1,0 +1,141 @@
+﻿@using MVCWEB.ViewModel.ForProject
+@model ProjectDiscussionViewModel
+
+@{
+    Layout = "_MainLayout";
+}
+
+<style>
+    .discussion-container {
+        max-width: 80%;
+    }
+
+    .discussion-description {
+        line-height: 1.7;
+        font-size: .9rem;
+    }
+
+    .comment-author-pill {
+        background-color: #e9ecef;
+        width: 32px;
+        height: 32px;
+    }
+
+    .comment-timestamp {
+        font-size: .78rem;
+    }
+
+    .comment-body {
+        font-size: .875rem;
+        line-height: 1.65;
+    }
+</style>
+
+<div class="container py-4 discussion-container">
+  <div class="project-details mb-3">
+        <span class="text-muted fs-5 fw-medium"><a class="text-decoration-none" href="@Url.Action("Main", new { id=Model.Project_id, tab="discussions" })">@Model.ProjectTitle</a>/Discussions/@Model.Topic_id</span>
+  </div>
+    <div class="card border rounded-4 mb-4">
+        <div class="card-body p-4">
+
+            <div class="d-flex align-items-start justify-content-between mb-1">
+                <h4 class="fw-semibold mb-0">@Model.Title</h4>
+                @if (Model.IsClosed == true)
+                {
+                    <span class="badge bg-secondary ms-2 mt-1">Closed</span>
+                }
+                else
+                {
+                    <span class="badge bg-success ms-2 mt-1">Open</span>
+                }
+            </div>
+
+            <div class="d-flex gap-3 text-muted small mb-3">
+                <span>
+                    <i class="bi bi-person me-1"></i>@Model.CreatedBy
+                </span>
+                <span>
+                    <i class="bi bi-clock me-1"></i>
+                    @Model.CreatedAt?.ToString("MMM dd, yyyy · hh:mm tt")
+                </span>
+            </div>
+
+            <p class="text-secondary mb-4 discussion-description">
+                @Model.Description
+            </p>
+
+            @if (Model.IsClosed != true)
+            {
+                <div class="d-flex gap-2 align-items-center">
+                    <input type="text"
+                           class="form-control rounded-pill bg-light border"
+                           placeholder="Write a comment…" />
+                    <button class="btn btn-dark rounded-pill px-4 text-nowrap">
+                        Post
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-secondary rounded-3 mb-0 py-2 small text-center">
+                    This discussion is closed. No new comments can be posted.
+                </div>
+            }
+
+        </div>
+    </div>
+
+    @if (Model.Messages != null && Model.Messages.Any())
+    {
+        <p class="text-muted small fw-semibold mb-3 ps-1">
+            @Model.Messages.Count comment@(Model.Messages.Count != 1 ? "s" : "")
+        </p>
+    }
+
+    <div class="d-flex flex-column gap-3">
+
+        @if (Model.Messages == null || !Model.Messages.Any())
+        {
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-chat-square-text fs-2 d-block mb-2"></i>
+                No comments yet. Be the first to reply!
+            </div>
+        }
+        else
+        {
+            @* @foreach (var msg in Model.Messages)
+            {
+                <div class="card border rounded-4">
+                    <div class="card-body p-4">
+
+                        <div class="d-inline-flex align-items-center gap-2 border rounded-pill px-3 py-1 mb-3 bg-white">
+                            <div class="rounded-circle overflow-hidden flex-shrink-0 comment-author-pill">
+                                <i class="bi bi-person-fill text-secondary d-flex justify-content-center align-items-center h-100"></i>
+                            </div>
+                            <span class="fw-semibold small">@msg.SenderName</span>
+                            <span class="text-muted comment-timestamp">
+                                @msg.SentAt?.ToString("MMM dd · hh:mm tt")
+                            </span>
+                        </div>
+
+                        <p class="text-secondary mb-3 comment-body">
+                            @msg.Message
+                        </p>
+
+                        @if (Model.IsClosed != true)
+                        {
+                            <button class="btn btn-link p-0 text-decoration-none text-warning-emphasis small fw-semibold">
+                                <i class="bi bi-reply me-1"></i>Reply
+                            </button>
+                        }
+
+                    </div>
+                </div>
+            } *@
+        }
+
+    </div>
+</div>
+@section PageStyles {
+   
+}

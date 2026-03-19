@@ -208,7 +208,7 @@
         <h6 class="fw-semibold mb-0 text-secondary text-uppercase" style="font-size:0.75rem; letter-spacing:0.08em;">
             @Model.DiscussionTopics.Count() Discussion@(Model.DiscussionTopics.Count() != 1 ? "s" : "")
         </h6>
-        <a class="btn btn-primary btn-sm px-3" href="@Url.Action("creatediscussion", new { projectId = Model.Id })">
+        <a class="btn btn-primary btn-sm px-3" href="@Url.Action("creatediscussion", new { projectId = Model.Id , projectTitle = Model.Title.ToString() })">
             + New Discussion
         </a>
     </div>
@@ -229,7 +229,7 @@
         <div class="list-group list-group-flush border rounded-3 overflow-hidden">
             @foreach (var topic in Model.DiscussionTopics)
             {
-                <a href="@Url.Action("Discussion", new { topicId = topic.Topic_id })"
+                <a href="@Url.Action("Discussions", new { ProjectId = Model.Id ,TopicId = topic.Topic_id })"
                    class="list-group-item list-group-item-action px-4 py-3">
                     <div class="d-flex justify-content-between align-items-start gap-3">
 
@@ -269,13 +269,17 @@
                 </a>
             }
         </div>
+        }
     }
-}
 
     else if (currentTab == "members")
     {
 
-        <button class="btn btn-primary btn-sm mb-2" id="btnViewRequests" data-project-id="@Model.Id">Requests</button>
+        if (Model.IsUserProjectOwner)
+        {
+            <button class="btn btn-primary btn-sm mb-2" id="btnViewRequests" data-project-id="@Model.Id">Requests</button>
+        }
+
         //Partial for members list heree
         <partial name="Partials/Project/Tabs/_ProjectMainMembersPartial" model="Model" />
 

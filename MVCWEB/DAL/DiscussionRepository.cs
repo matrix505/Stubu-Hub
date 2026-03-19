@@ -36,7 +36,7 @@ namespace MVCWEB.DAL
             return rowsAffected > 0;
         }
 
-        public async Task<List<Discussions>> GetAllDiscussions(int ProjectId)
+        public async Task<List<Discussions>?> GetAllDiscussions(int ProjectId)
         {
             using var conn = _dapperContext.CreateConnection();
             const string sql = @"
@@ -55,6 +55,33 @@ namespace MVCWEB.DAL
 
             var result = await conn.QueryAsync<Discussions>(sql, new { ProjectId });
             return result.ToList();
+        }
+        public async Task<Discussions?> GetDiscussionById(int TopicId)
+        {
+            using var conn = _dapperContext.CreateConnection();
+            const string sql = @"
+                    SELECT 
+                        dt.Topic_id,
+                        dt.Project_id,
+                        dt.Title,
+                        dt.Description,
+                        dt.Creator_id,
+                        dt.CreatedAt,
+                        CONCAT(u.FirstName,' ',u.LastName) AS CreatorName,
+                        p.Title as ProjectTitle
+
+                        FROM DiscussionTopics dt
+                        INNER JOIN Users u ON u.User_id = dt.Creator_id
+                        INNER JOIN Project p on p.Project_id = dt.Project_id 
+                        WHERE dt.Topic_id = @TopicId";
+            var result = await conn.QueryFirstOrDefaultAsync<Discussions>(sql, new { TopicId });
+            return result;
+
+        }
+
+        public Task<List<TopicMessages>?> GetTopicMessages(int TopicId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

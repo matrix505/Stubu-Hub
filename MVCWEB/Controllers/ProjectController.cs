@@ -99,7 +99,7 @@ namespace MVCWEB.Controllers
                 Description = ccvm.Description,
                 MemberSize = ccvm.MemberSize,
 
-                Categories = ccvm.SelectedCategoryIds!.
+                Categories = ccvm.SelectedCategoryIds.
                 Select(id => new ProjectCategories
                 {
                     Category_id = int.Parse(id),
@@ -122,6 +122,7 @@ namespace MVCWEB.Controllers
         [HttpGet]
         public async Task<IActionResult> Requests(int ProjectId)
         {
+
             // TODO: return partial modal for list of join requests
 
             var joinRequests = await _project.ViewJoinRequests(ProjectId);
@@ -177,16 +178,55 @@ namespace MVCWEB.Controllers
             return Json(new { success = result });
         }
         [HttpGet]
-        public IActionResult Discussions()
+        public async Task<IActionResult> Discussions(int ProjectId, int TopicId)
         {
-            // TODO : 
-            return View();
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            
+            if (!await _project.IsUserProjectMember(UserId, ProjectId))
+            {
+                return Forbid();
+            }
+            var FetchDiscussion = await _discussion.GetDiscussionById(TopicId);
+
+            if(FetchDiscussion == null)
+            {
+                return NotFound();
+            }
+
+            var DiscussionDetails = new ProjectDiscussionViewModel()
+            {
+                Topic_id = FetchDiscussion.Topic_id,
+                Title = FetchDiscussion.Title,
+                Description = FetchDiscussion.Description,
+                CreatedBy = FetchDiscussion.CreatorName,
+                Project_id = FetchDiscussion.Project_id,
+                ProjectTitle = FetchDiscussion.ProjectTitle,
+                CreatedAt = FetchDiscussion.CreatedAt
+            };
+            return View(DiscussionDetails);
         }
+        //[HttpPost]
+        //public IActionResult Discussions()
+        //{
+           
+        //    return View();
+        //}
 
         [HttpGet]
-        public IActionResult CreateDiscussion(int projectId)
+        public async Task<IActionResult> CreateDiscussion(int projectId,string projectTitle)
         {
-            return View(new ProjectCreateDiscussionViewModel() { ProjectId = projectId });
+            var UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if(!await _project.IsUserProjectMember(UserId,projectId))
+            {
+                return NotFound();
+            }
+
+            return View(new ProjectCreateDiscussionViewModel() { 
+                
+                ProjectId = projectId,
+                ProjectTitle = projectTitle
+            
+            });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -200,12 +240,13 @@ namespace MVCWEB.Controllers
             var create = new Discussions()
             {
                 Project_id = pcd.ProjectId,
+                ProjectTitle = pcd.ProjectTitle,
                 Title = pcd.Title,
                 Description = pcd.Description,
                 CreatedAt = DateTime.Now,
                 Creator_id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)
             };
-            //_logger.LogInformation(pcd.ProjectId.ToString());
+         
             await _discussion.CreateDiscussion(create);
 
             return RedirectToAction("Main", new { id = pcd.ProjectId, tab = "discussions"});

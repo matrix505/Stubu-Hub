@@ -27,7 +27,7 @@
             {
                 "Active" => "bg-success",
                 "Planning" => "bg-warning text-dark",
-                "Open" => "bg-secondary",
+                "OPEN" => "bg-secondary",
                 "Completed" => "bg-info",
                 _ => "bg-light text-dark"
             };
@@ -154,11 +154,11 @@
             <span class="btn btn-secondary" href="#" disabled>Requested</span>
         }
         else
-        {
+        {   
 
             <form asp-action="RequestToJoin" asp-controller="project"
                   asp-route-ProjectId="@Model.Project.Project_id" method="post">
-                @Html.AntiForgeryToken();
+                @Html.AntiForgeryToken()
                 <button class="btn btn-dark btn">
                     <i class="bi bi-arrow-right me-1"></i>
                     Request to join
